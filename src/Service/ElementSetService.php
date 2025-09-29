@@ -2,21 +2,20 @@
 
 namespace C4Y\Block4you\Service;
 
-use Contao\ContentModel;
 use Doctrine\DBAL\Connection;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
-use Symfony\Component\HttpKernel\KernelInterface;
-
 class ElementSetService
 {
     private string $elementSetsPath;
     private Connection $connection;
 
-    public function __construct(KernelInterface $kernel, Connection $connection)
+    public function __construct(string $projectDir, string $elementSetsPath, Connection $connection)
     {
-        $this->elementSetsPath = rtrim($kernel->getProjectDir(), '/').'/bundles/block4you/element-sets';
         $this->connection = $connection;
+
+        // Construct absolute path
+        $this->elementSetsPath = rtrim($projectDir, '/') . '/' . ltrim($elementSetsPath, '/');
     }
 
     /**

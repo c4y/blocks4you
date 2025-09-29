@@ -1,6 +1,6 @@
 name: "Bild-Text Block 2"
 description: "Ein zweispaltiger Block mit Bild und Text nebeneinander."
-preview: "/bundles/contaoblock4you/element-sets/bild-text-grid2.png"
+preview: "/bundles/block4you/element-sets/bild-text-grid2.png"
 
 elements:
   - type: "rsce_bild_text2"

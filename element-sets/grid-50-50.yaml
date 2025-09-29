@@ -1,6 +1,6 @@
 name: "Grid 50/50"
 description: "Ein 50/50 Grid mit verschachtelten Umschlags-Elementen"
-preview: "/bundles/contaoblock4you/element-sets/grid-50-50.png"
+preview: "/bundles/block4you/element-sets/grid-50-50.png"
 
 elements:
   - type: rsce_wrapper_start

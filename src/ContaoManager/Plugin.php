@@ -7,7 +7,7 @@ use Contao\ManagerPlugin\Bundle\BundlePluginInterface;
 use Contao\ManagerPlugin\Routing\RoutingPluginInterface;
 use Contao\ManagerPlugin\Bundle\Parser\ParserInterface;
 use Contao\CoreBundle\ContaoCoreBundle;
-use C4Y\Block4you\ContaoBlock4youBundle;
+use C4Y\Block4you\Block4youBundle;
 use Symfony\Component\Config\Loader\LoaderResolverInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 
@@ -18,7 +18,7 @@ class Plugin implements BundlePluginInterface, RoutingPluginInterface
     public function getBundles(ParserInterface $parser)
     {
         return [
-            BundleConfig::create(ContaoBlock4youBundle::class)
+            BundleConfig::create(Block4youBundle::class)
                 ->setLoadAfter(
                     [ContaoCoreBundle::class]
                 )
@@ -31,7 +31,7 @@ class Plugin implements BundlePluginInterface, RoutingPluginInterface
     public function getRouteCollection(LoaderResolverInterface $resolver, KernelInterface $kernel)
     {
         return $resolver
-            ->resolve(__DIR__ . '/../../config/routing.yml')
-            ->load(__DIR__ . '/../../config/routing.yml');
+            ->resolve(__DIR__ . '/../../config/routing.yaml')
+            ->load(__DIR__ . '/../../config/routing.yaml');
     }
 }

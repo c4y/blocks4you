@@ -1,4 +1,0 @@
-block4you_controllers:
-  resource: "@ContaoBlock4youBundle/src/Controller/"
-  type: attribute
-

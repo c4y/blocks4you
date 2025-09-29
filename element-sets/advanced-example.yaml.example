@@ -1,6 +1,6 @@
 name: "Erweiterte Beispiele"
 description: "Zeigt sowohl einfache als auch komplexe Felder mit Serialisierung"
-preview: "bundles/contaoblock4you/element-sets/advanced-example.jpg"
+preview: "bundles/block4you/element-sets/advanced-example.jpg"
 
 elements:
   # Beispiel mit einfachen String-Feldern

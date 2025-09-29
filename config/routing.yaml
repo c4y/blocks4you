@@ -1,0 +1,4 @@
+block4you_controllers:
+  resource: "@Block4youBundle/src/Controller/"
+  type: attribute
+

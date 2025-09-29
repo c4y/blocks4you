@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use C4Y\Block4you\Service\ElementSetService;
 use Contao\CoreBundle\Csrf\ContaoCsrfTokenManager;
 use Twig\Environment;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 #[Route('/contao/elementset', name: 'contao_elementset', defaults: ['_scope' => 'backend'])]
 class ElementsetController extends AbstractBackendController
@@ -17,20 +18,23 @@ class ElementsetController extends AbstractBackendController
     private ElementSetService $elementSetService;
     private ContaoCsrfTokenManager $csrfTokenManager;
     private Environment $twig;
+    private ParameterBagInterface $parameterBag;
 
     public function __construct(
         ElementSetService $elementSetService, 
         ContaoCsrfTokenManager $csrfTokenManager,
-        Environment $twig
+        Environment $twig,
+        ParameterBagInterface $parameterBag
     ) {
         $this->elementSetService = $elementSetService;
         $this->csrfTokenManager = $csrfTokenManager;
         $this->twig = $twig;
+        $this->parameterBag = $parameterBag;
     }
 
     public function __invoke(Request $request): Response
     {
-        $GLOBALS['TL_CSS'][] = '/bundles/contaoblock4you/css/element-sets.css';
+        $GLOBALS['TL_CSS'][] = '/bundles/block4you/css/element-sets.css';
         
         $elementSetId = $request->query->get('elementSetId');
         $doElementSetPaste = $request->query->get('doElementSetPaste');
@@ -50,7 +54,7 @@ class ElementsetController extends AbstractBackendController
         $mode = $request->query->get('mode');
 
         if (!$articleId) {
-            return $this->render('@ContaoBlock4you/elementset_selection.html.twig', [
+            return $this->render('@Block4you/elementset_selection.html.twig', [
                 'error' => 'Keine Artikel-ID angegeben',
                 'title' => 'Element-Set auswählen',
                 'headline' => 'Fehler',
@@ -68,7 +72,7 @@ class ElementsetController extends AbstractBackendController
             $backUrl = $request->headers->get('referer', '/contao?do=article&table=tl_content&id=' . $articleId);
             $backUrl .= (strpos($backUrl, '?') !== false ? '&' : '?') . 'rt=' . $requestToken;
             
-            return $this->render('@ContaoBlock4you/elementset_selection.html.twig', [
+            return $this->render('@Block4you/elementset_selection.html.twig', [
                 'title' => 'Element-Set auswählen',
                 'headline' => 'Element-Set für Artikel ' . $articleId . ' auswählen',
                 'elementSets' => $elementSets,
