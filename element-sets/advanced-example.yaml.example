@@ -1,0 +1,54 @@
+name: "Erweiterte Beispiele"
+description: "Zeigt sowohl einfache als auch komplexe Felder mit Serialisierung"
+preview: "bundles/contaoblock4you/element-sets/advanced-example.jpg"
+
+elements:
+  # Beispiel mit einfachen String-Feldern
+  - type: text
+    fields:
+      text: "<p>Dies ist ein einfacher Text mit String-Wert.</p>"
+      cssID: ""
+  
+  # Beispiel mit komplexem headline-Feld (unit + value)
+  - type: headline
+    fields:
+      headline:
+        unit: "h2"
+        value: "Komplexe Überschrift mit Unit und Value"
+      cssID:
+        - "custom-id"
+        - "custom-class another-class"
+  
+  # Beispiel mit Bild und komplexen Feldern
+  - type: image
+    fields:
+      singleSRC: "files/example-image.jpg"
+      alt: "Beispielbild"
+      size:
+        - "400"
+        - "300"
+        - "crop"
+      imagemargin:
+        top: "10"
+        right: "15"
+        bottom: "10"
+        left: "15"
+        unit: "px"
+      floating: "left"
+      caption: "Dies ist eine Bildunterschrift"
+      fullsize: "1"
+  
+  # Beispiel mit Text und erweiterten Einstellungen
+  - type: text
+    fields:
+      headline:
+        unit: "h3"
+        value: "Text mit erweiterten Einstellungen"
+      text: "<p>Dieser Text hat erweiterte Einstellungen für Abstände und CSS.</p>"
+      space:
+        top: "20"
+        bottom: "30"
+        unit: "px"
+      cssID:
+        - "text-block"
+        - "highlight-section custom-spacing"

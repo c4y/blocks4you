@@ -1,0 +1,6 @@
+name: "Hero Section"
+description: "Eine vollständige Hero-Sektion mit Überschrift, Text und Call-to-Action Button"
+preview: "/bundles/contaoblock4you/element-sets/hero-section.png"
+
+elements:
+  - type: "rsce_hero"

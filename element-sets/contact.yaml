@@ -1,0 +1,6 @@
+name: "Kontakt"
+description: "Ein einfaches Kontakt-Element"
+preview: "/bundles/contaoblock4you/element-sets/contact.png"
+
+elements:
+  - type: rsce_contact

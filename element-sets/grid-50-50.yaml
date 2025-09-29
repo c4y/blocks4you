@@ -1,0 +1,37 @@
+name: "Grid 50/50"
+description: "Ein 50/50 Grid mit verschachtelten Umschlags-Elementen"
+preview: "/bundles/contaoblock4you/element-sets/grid-50-50.png"
+
+elements:
+  - type: rsce_wrapper_start
+    fields:
+      cssID:
+        - ""
+        - "row"
+
+  - type: rsce_wrapper_start
+    fields:
+      cssID:
+        - ""
+        - "col-sm-6"
+
+  - type: html
+    fields:
+      html: '<!-- linke Spalte 50% -->'
+
+  - type: rsce_wrapper_stop
+
+  - type: rsce_wrapper_start
+    fields:
+      cssID:
+        - ""
+        - "col-sm-6"
+
+  - type: html
+    fields:
+      html: '<!-- rechte Spalte 50% -->'
+
+  - type: rsce_wrapper_stop
+
+  - type: rsce_wrapper_stop
+    

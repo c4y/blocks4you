@@ -1,0 +1,6 @@
+name: "Call-to-Action"
+description: "Call-to-Action"
+preview: "/bundles/contaoblock4you/element-sets/cta.png"
+
+elements:
+  - type: "rsce_cta"

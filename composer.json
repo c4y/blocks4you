@@ -1,0 +1,42 @@
+{
+    "name": "c4y/block4you",
+    "type": "contao-bundle",
+    "description": "Contao 5 Inhaltsblöcke",
+    "homepage": "https://contao4you.de",
+    "license": "LGPL-3.0-or-later",
+    "authors": [
+        {
+            "name": "Oliver Lohoff",
+            "homepage": "https://contao4you.de"
+        }
+    ],
+    "require": {
+        "php": "^8.0",
+        "contao/core-bundle": "^4.13 || ^5.0"
+    },
+    "conflict": {
+        "contao/manager-plugin": "<2.0 || >=3.0"
+    },
+    "extra": {
+        "contao-manager-plugin": "C4Y\\Block4you\\ContaoManager\\Plugin"
+    },
+    "autoload": {
+        "psr-4": {
+            "C4Y\\Block4you\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "C4Y\\Block4you\\": "tests/"
+        }
+    },
+    "support": {
+        "issues": "https://github.com/c4y/block4you/issues",
+        "source": "https://github.com/c4y/block4you"
+    },
+    "scripts": {
+        "cs-fixer": [
+            "vendor/bin/ecs check src/ tests/ --fix --ansi"
+        ]
+    }
+}

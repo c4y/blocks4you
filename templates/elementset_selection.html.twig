@@ -1,0 +1,55 @@
+{% extends "@Contao/be_main" %}
+
+{% block headline %}{{ headline }}{% endblock %}
+
+{% block error %}
+    {% if error is defined %}
+        <div class="tl_error">
+            <p>{{ error }}</p>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block main %}
+    {% if error is not defined %}
+        <div class="tl_listing_container">
+            {% if elementSets is empty %}
+                <div class="tl_info">
+                    <p>Keine Element-Sets verfügbar.</p>
+                    <p>Erstellen Sie YAML-Dateien im Ordner <code>bundles/block4you/element-sets/</code></p>
+                </div>
+            {% else %}
+                <div class="element-set-grid">
+                    {% for elementSet in elementSets %}
+                        <div class="element-set-card">
+                            <h3 style="margin-top: 0; color: #333;">{{ elementSet.name }}</h3>
+                            <p style="color: #666; margin: 10px 0;">{{ elementSet.description }}</p>
+                            <p style="font-size: 12px; color: #999;">
+                                <strong>Elemente:</strong> {{ elementSet.elements|length }}
+                            </p>
+                            
+                            {% if elementSet.preview %}
+                                <div class="element-set-preview">
+                                    <img src="{{ elementSet.preview }}" 
+                                         alt="Vorschau für {{ elementSet.name }}" >
+                                </div>
+                            {% endif %}
+                            
+                            <a href="/contao/elementset?do={{ do }}&table={{ table }}&id={{ articleId }}&pid={{ pid }}&elementSetId={{ elementSet.id }}&doElementSetPaste=1&mode={{ mode }}" 
+                               class="tl_submit" 
+                               style="display: inline-block; margin-top: 10px; text-decoration: none;">
+                                Auswählen
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            
+            <div style="margin-top: 30px;">
+                <a href="javascript:history.go(-1)" class="tl_submit">
+                    Zurück
+                </a>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

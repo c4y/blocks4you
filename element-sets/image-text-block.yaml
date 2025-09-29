@@ -1,0 +1,9 @@
+name: "Bild-Text Block"
+description: "Ein zweispaltiger Block mit Bild und Text nebeneinander."
+preview: "/bundles/contaoblock4you/element-sets/bild-text-grid.png"
+
+elements:
+  - type: "rsce_bild-text-grid"
+    fields:
+      text: ''
+      cssID: ""

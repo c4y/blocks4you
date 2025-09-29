@@ -1,0 +1,31 @@
+.tl_listing_container {
+    flex: 1 1 auto;
+}
+
+.element-set-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.element-set-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    background: #f9f9f9;
+}
+
+.element-set-preview {
+    margin: 15px 0;
+    text-align: center;
+    overflow: hidden;
+    height: 200px;
+}
+
+.element-set-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
