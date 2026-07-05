@@ -1,6 +1,0 @@
-name: "Card"
-description: "Ein einfaches Card Element"
-preview: "/bundles/block4you/element-sets/card.png"
-
-elements:
-  - type: rsce_card

@@ -1,46 +1,46 @@
 <?php
 
-namespace C4Y\Block4you\Service;
+namespace C4Y\Blocks4you\Service;
 
 use Doctrine\DBAL\Connection;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
-class ElementSetService
+class BlockService
 {
-    private string $elementSetsPath;
+    private string $blocksPath;
     private Connection $connection;
 
-    public function __construct(string $projectDir, string $elementSetsPath, Connection $connection)
+    public function __construct(string $projectDir, string $blocksPath, Connection $connection)
     {
         $this->connection = $connection;
 
         // Construct absolute path
-        $this->elementSetsPath = rtrim($projectDir, '/') . '/' . ltrim($elementSetsPath, '/');
+        $this->blocksPath = rtrim($projectDir, '/') . '/' . ltrim($blocksPath, '/');
     }
 
     /**
-     * Get all available element sets
+     * Get all available blocks
      */
-    public function getAvailableElementSets(): array
+    public function getAvailableBlocks(): array
     {
-        $elementSets = [];
+        $blocks = [];
         
-        if (!is_dir($this->elementSetsPath)) {
-            return $elementSets;
+        if (!is_dir($this->blocksPath)) {
+            return $blocks;
         }
 
         $finder = new Finder();
-        $finder->files()->in($this->elementSetsPath)->name('*.yaml')->name('*.yml');
+        $finder->files()->in($this->blocksPath)->name('*.yaml')->name('*.yml');
 
         foreach ($finder as $file) {
             try {
                 $config = Yaml::parseFile($file->getRealPath());
-                $elementSets[] = [
+                $blocks[] = [
                     'id' => $file->getBasename('.' . $file->getExtension()),
                     'name' => $config['name'] ?? $file->getBasename('.' . $file->getExtension()),
                     'description' => $config['description'] ?? '',
                     'preview' => $config['preview'] ?? null,
-                    'elements' => $config['elements'] ?? []
+                    'blocks' => $config['blocks'] ?? []
                 ];
             } catch (\Exception $e) {
                 // Skip invalid YAML files
@@ -49,32 +49,32 @@ class ElementSetService
         }
 
         // Sort alphabetically by name
-        usort($elementSets, function($a, $b) {
+        usort($blocks, function($a, $b) {
             return strcasecmp($a['name'], $b['name']);
         });
 
-        return $elementSets;
+        return $blocks;
     }
 
     /**
-     * Get preview for a specific element set
+     * Get preview for a specific block
      */
-    public function getElementSetPreview(string $elementSetId): array
+    public function getBlockPreview(string $blockId): array
     {
-        $filePath = $this->elementSetsPath . '/' . $elementSetId . '.yaml';
+        $filePath = $this->blocksPath . '/' . $blockId . '.yaml';
         
         if (!file_exists($filePath)) {
-            $filePath = $this->elementSetsPath . '/' . $elementSetId . '.yml';
+            $filePath = $this->blocksPath . '/' . $blockId . '.yml';
         }
 
         if (!file_exists($filePath)) {
-            throw new \Exception('Element-Set nicht gefunden');
+            throw new \Exception('Block nicht gefunden');
         }
 
         $config = Yaml::parseFile($filePath);
         
         return [
-            'name' => $config['name'] ?? $elementSetId,
+            'name' => $config['name'] ?? $blockId,
             'description' => $config['description'] ?? '',
             'preview' => $config['preview'] ?? null
         ];
@@ -131,25 +131,25 @@ class ElementSetService
     }
 
     /**
-     * Insert element set at a specific sorting position
+     * Insert block at a specific sorting position
      */
-    public function insertElementSetAtPosition(int $articleId, string $elementSetId, int $sorting): bool
+    public function insertBlockAtPosition(int $articleId, string $blockId, int $sorting): bool
     {
-        $filePath = $this->elementSetsPath . '/' . $elementSetId . '.yaml';
+        $filePath = $this->blocksPath . '/' . $blockId . '.yaml';
         
         if (!file_exists($filePath)) {
-            $filePath = $this->elementSetsPath . '/' . $elementSetId . '.yml';
+            $filePath = $this->blocksPath . '/' . $blockId . '.yml';
         }
 
         if (!file_exists($filePath)) {
-            throw new \Exception('Element-Set nicht gefunden');
+            throw new \Exception('Block nicht gefunden');
         }
 
         $config = Yaml::parseFile($filePath);
         $elements = $config['elements'] ?? [];
 
         if (empty($elements)) {
-            throw new \Exception('Element-Set enthält keine Elemente');
+            throw new \Exception('Block enthält keine Elemente');
         }
 
         // Get current elements to calculate proper sorting
@@ -168,7 +168,7 @@ class ElementSetService
             $position = $index + 1;
         }
 
-        $sortingValues = $this->calculateSortingForElementSet($existingElements, $position, count($elements));
+        $sortingValues = $this->calculateSortingForBlock($existingElements, $position, count($elements));
 
         // Insert elements with calculated sorting values
         foreach ($elements as $index => $element) {
@@ -179,25 +179,25 @@ class ElementSetService
     }
 
     /**
-     * Insert element set into article
+     * Insert block into article
      */
-    public function insertElementSet(int $articleId, string $elementSetId, int $position = 0): bool
+    public function insertBlock(int $articleId, string $blockId, int $position = 0): bool
     {
-        $filePath = $this->elementSetsPath . '/' . $elementSetId . '.yaml';
+        $filePath = $this->blocksPath . '/' . $blockId . '.yaml';
         
         if (!file_exists($filePath)) {
-            $filePath = $this->elementSetsPath . '/' . $elementSetId . '.yml';
+            $filePath = $this->blocksPath . '/' . $blockId . '.yml';
         }
 
         if (!file_exists($filePath)) {
-            throw new \Exception('Element-Set nicht gefunden');
+            throw new \Exception('Block nicht gefunden');
         }
 
         $config = Yaml::parseFile($filePath);
         $elements = $config['elements'] ?? [];
 
         if (empty($elements)) {
-            throw new \Exception('Element-Set enthält keine Elemente');
+            throw new \Exception('Block enthält keine Elemente');
         }
 
         // Get current elements to calculate sorting
@@ -261,7 +261,7 @@ class ElementSetService
     /**
      * Calculate sorting values for element set insertion (Contao-style)
      */
-    private function calculateSortingForElementSet(array $existingElements, int $position, int $elementCount): array
+    private function calculateSortingForBlock(array $existingElements, int $position, int $elementCount): array
     {
         $sortingValues = [];
         

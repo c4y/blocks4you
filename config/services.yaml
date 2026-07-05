@@ -1,14 +1,17 @@
+parameters:
+    blocks4you.path: 'files/theme/blocks'
+
 services:
     _defaults:
         autowire: true
         autoconfigure: true
         public: true
 
-    C4Y\Block4you\:
+    C4Y\Blocks4you\:
         resource: '../src/*'
 
-    C4Y\Block4you\Service\ElementSetService:
+    C4Y\Blocks4you\Service\BlockService:
         arguments:
             $projectDir: '%kernel.project_dir%'
-            $elementSetsPath: '%block4you.path%'
+            $blocksPath: '%blocks4you.path%'
             $connection: '@doctrine.dbal.default_connection'

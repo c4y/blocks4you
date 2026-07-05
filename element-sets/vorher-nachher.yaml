@@ -1,6 +1,0 @@
-name: "Vorher / Nachher"
-description: "Bild-Vorher / Bild-Nachher mit Schieberegler"
-preview: "/bundles/block4you/element-sets/vorher-nachher.png"
-
-elements:
-  - type: rsce_before_after

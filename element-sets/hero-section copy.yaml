@@ -1,6 +1,0 @@
-name: "Call-to-Action"
-description: "Call-to-Action"
-preview: "/bundles/block4you/element-sets/cta.png"
-
-elements:
-  - type: "rsce_cta"

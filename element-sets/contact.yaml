@@ -1,6 +1,0 @@
-name: "Kontakt"
-description: "Ein einfaches Kontakt-Element"
-preview: "/bundles/block4you/element-sets/contact.png"
-
-elements:
-  - type: rsce_contact

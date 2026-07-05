@@ -1,32 +1,32 @@
 <?php
 
-namespace C4Y\Block4you\Controller;
+namespace C4Y\Blocks4you\Controller;
 
 use Contao\CoreBundle\Controller\AbstractBackendController;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use C4Y\Block4you\Service\ElementSetService;
+use C4Y\Blocks4you\Service\BlockService;
 use Contao\CoreBundle\Csrf\ContaoCsrfTokenManager;
 use Twig\Environment;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
-#[Route('/contao/elementset', name: 'contao_elementset', defaults: ['_scope' => 'backend'])]
-class ElementsetController extends AbstractBackendController
+#[Route('/contao/blocks', name: 'contao_blocks', defaults: ['_scope' => 'backend'])]
+class BlocksController extends AbstractBackendController
 {
-    private ElementSetService $elementSetService;
+    private BlockService $blockService;
     private ContaoCsrfTokenManager $csrfTokenManager;
     private Environment $twig;
     private ParameterBagInterface $parameterBag;
 
     public function __construct(
-        ElementSetService $elementSetService, 
+        BlockService $blockService, 
         ContaoCsrfTokenManager $csrfTokenManager,
         Environment $twig,
         ParameterBagInterface $parameterBag
     ) {
-        $this->elementSetService = $elementSetService;
+        $this->blockService = $blockService;
         $this->csrfTokenManager = $csrfTokenManager;
         $this->twig = $twig;
         $this->parameterBag = $parameterBag;
@@ -34,19 +34,19 @@ class ElementsetController extends AbstractBackendController
 
     public function __invoke(Request $request): Response
     {
-        $GLOBALS['TL_CSS'][] = '/bundles/block4you/css/element-sets.css';
+        $GLOBALS['TL_CSS'][] = '/bundles/blocks4you/css/blocks.css';
         
-        $elementSetId = $request->query->get('elementSetId');
-        $doElementSetPaste = $request->query->get('doElementSetPaste');
+        $blockId = $request->query->get('blockId');
+        $doBlockPaste = $request->query->get('doBlockPaste');
 
-        if ($elementSetId && $doElementSetPaste) {
-            return $this->insertElementSet($request);
+        if ($blockId && $doBlockPaste) {
+            return $this->insertBlock($request);
         }
         
-        return $this->showElementSetSelection($request);
+        return $this->showBlocks($request);
     }
 
-    protected function showElementSetSelection(Request $request) {
+    protected function showBlocks(Request $request) {
         $articleId = $request->query->get('id');
         $pid = $request->query->get('pid');
         $table = $request->query->get('table');
@@ -54,16 +54,16 @@ class ElementsetController extends AbstractBackendController
         $mode = $request->query->get('mode');
 
         if (!$articleId) {
-            return $this->render('@Block4you/elementset_selection.html.twig', [
+            return $this->render('@Blocks4you/blocks.html.twig', [
                 'error' => 'Keine Artikel-ID angegeben',
-                'title' => 'Element-Set auswählen',
+                'title' => 'Block auswählen',
                 'headline' => 'Fehler',
-                'elementSets' => []
+                'blocks' => []
             ]);
         }
 
         try {
-            $elementSets = $this->elementSetService->getAvailableElementSets();
+            $blocks = $this->blockService->getAvailableBlocks();
             
             // Get the default request token (like Contao does internally)
             $requestToken = $this->csrfTokenManager->getDefaultTokenValue();
@@ -72,10 +72,10 @@ class ElementsetController extends AbstractBackendController
             $backUrl = $request->headers->get('referer', '/contao?do=article&table=tl_content&id=' . $articleId);
             $backUrl .= (strpos($backUrl, '?') !== false ? '&' : '?') . 'rt=' . $requestToken;
             
-            return $this->render('@Block4you/elementset_selection.html.twig', [
-                'title' => 'Element-Set auswählen',
-                'headline' => 'Element-Set für Artikel ' . $articleId . ' auswählen',
-                'elementSets' => $elementSets,
+            return $this->render('@Blocks4you/blocks.html.twig', [
+                'title' => 'Block auswählen',
+                'headline' => 'Block für Artikel ' . $articleId . ' auswählen',
+                'blocks' => $blocks,
                 'table' => $table,
                 'do' => $do,
                 'articleId' => $articleId,
@@ -86,19 +86,19 @@ class ElementsetController extends AbstractBackendController
             ]);
             
         } catch (\Exception $e) {
-            return $this->render('@Contao/elementset_selection.html.twig', [
-                'error' => 'Fehler beim Laden der Element-Sets: ' . $e->getMessage(),
-                'title' => 'Element-Set auswählen',
+            return $this->render('@Blocks4you/blocks.html.twig', [
+                'error' => 'Fehler beim Laden der Blöcke: ' . $e->getMessage(),
+                'title' => 'Block auswählen',
                 'headline' => 'Fehler',
-                'elementSets' => []
+                'blocks' => []
             ]);
         }
     }
 
-    protected function insertElementSet(Request $request) {
+    protected function insertBlock(Request $request) {
         $articleId = $request->query->get('id');
-        $afterId = $request->query->get('pid'); // Element ID after which to insert (from position selection)
-        $elementSetId = $request->query->get('elementSetId');
+        $afterId = $request->query->get('pid'); // Block ID after which to insert (from position selection)
+        $blockId = $request->query->get('blockId');
         $table = $request->query->get('table');
         $mode = (int)$request->query->get('mode', 1); // Default mode = 1
 
@@ -116,7 +116,7 @@ class ElementsetController extends AbstractBackendController
             }
             
             // Insert the element set
-            $this->elementSetService->insertElementSetAtPosition((int)$articleId, $elementSetId, $position);
+            $this->blockService->insertBlockAtPosition((int)$articleId, $blockId, $position);
 
             // empty Clipboard
             $objSession = $request->getSession();
@@ -131,7 +131,7 @@ class ElementsetController extends AbstractBackendController
             
         } catch (\Exception $e) {
             // Add error message and continue
-            \Contao\Message::addError('Fehler beim Einfügen des Element-Sets: ' . $e->getMessage());
+            \Contao\Message::addError('Fehler beim Einfügen des Blocks: ' . $e->getMessage());
         }
     }
 

@@ -1,6 +1,37 @@
-name: "Erweiterte Beispiele"
+# Contao - Blocks4you
+
+Mehrere Contao Inhaltselemente (Blöcke) auf einmal einfügen. Die Blöcke werden mit YAML Dateien definiert. Alle Inhalte der Inhaltselemente können vordefiniert werden. Es kann ein Vorschaubild hinterlegt werden.
+
+## Installation
+
+`composer require c4y/blocks4you`. 
+
+In der /config/parameters.yaml den Pfad zu den Blöcken angeben:
+
+```yaml
+parameters:
+  blocks4you.path: 'templates/blocks'
+```
+
+## Verwendung
+
+Im einfachsten Fall sieht die YAML so aus, z.B. `/templates/blocks/text.yaml`. 
+
+```yaml
+name: "Text Element"
+description: "Ein einfaches Text-Element"
+preview: "/files/blocks/text.png"
+
+elements:
+  - type: text
+```
+
+Etwas komplexeres Beispiel mit mehreren Inhaltselemente: `/templates/blocks/advanced-example.yaml`.
+
+```yaml
+name: "Erweitertes Beispiel"
 description: "Zeigt sowohl einfache als auch komplexe Felder mit Serialisierung"
-preview: "bundles/block4you/element-sets/advanced-example.jpg"
+preview: "files/blocks/advanced-example.jpg"
 
 elements:
   # Beispiel mit einfachen String-Feldern
@@ -52,3 +83,9 @@ elements:
       cssID:
         - "text-block"
         - "highlight-section custom-spacing"
+
+```
+
+## to do
+
+Sobald ich herausgefunden habe, wie ich ein oder mehrere Inhaltselemente exportieren kann, liefere ich das nach.

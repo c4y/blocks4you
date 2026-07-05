@@ -1,10 +1,10 @@
 <?php
 
-namespace C4Y\Block4you;
+namespace C4Y\Blocks4you;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class Block4youBundle extends Bundle
+class Blocks4youBundle extends Bundle
 {
     public function getPath(): string
     {

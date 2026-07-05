@@ -13,29 +13,28 @@
 {% block main %}
     {% if error is not defined %}
         <div class="tl_listing_container">
-            {% if elementSets is empty %}
+            {% if blocks is empty %}
                 <div class="tl_info">
-                    <p>Keine Element-Sets verfügbar.</p>
-                    <p>Erstellen Sie YAML-Dateien im Ordner <code>bundles/block4you/element-sets/</code></p>
+                    <p>Kein block verfügbar.</p>
                 </div>
             {% else %}
-                <div class="element-set-grid">
-                    {% for elementSet in elementSets %}
-                        <div class="element-set-card">
-                            <h3 style="margin-top: 0; color: #333;">{{ elementSet.name }}</h3>
-                            <p style="color: #666; margin: 10px 0;">{{ elementSet.description }}</p>
+                <div class="blocks-grid">
+                    {% for block in blocks %}
+                        <div class="blocks-card">
+                            <h3 style="margin-top: 0; color: #333;">{{ block.name }}</h3>
+                            <p style="color: #666; margin: 10px 0;">{{ block.description }}</p>
                             <p style="font-size: 12px; color: #999;">
-                                <strong>Elemente:</strong> {{ elementSet.elements|length }}
+                                <strong>Elemente:</strong> {{ block.blocks|length }}
                             </p>
                             
-                            {% if elementSet.preview %}
-                                <div class="element-set-preview">
-                                    <img src="{{ elementSet.preview }}" 
-                                         alt="Vorschau für {{ elementSet.name }}" >
+                            {% if block.preview %}
+                                <div class="blocks-preview">
+                                    <img src="{{ block.preview }}" 
+                                         alt="Vorschau für {{ block.name }}" >
                                 </div>
                             {% endif %}
                             
-                            <a href="/contao/elementset?do={{ do }}&table={{ table }}&id={{ articleId }}&pid={{ pid }}&elementSetId={{ elementSet.id }}&doElementSetPaste=1&mode={{ mode }}" 
+                            <a href="/contao/blocks?do={{ do }}&table={{ table }}&id={{ articleId }}&pid={{ pid }}&blockId={{ block.id }}&doBlockPaste=1&mode={{ mode }}" 
                                class="tl_submit" 
                                style="display: inline-block; margin-top: 10px; text-decoration: none;">
                                 Auswählen
